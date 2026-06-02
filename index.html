@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Видео для SIGame</title>
+    <style>
+        body { margin: 0; background: #000; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        video { max-width: 100%; max-height: 100vh; }
+        .error { color: #ff8888; background: #1a1a1a; padding: 20px; text-align: center; font-family: sans-serif; }
+    </style>
+</head>
+<body>
+    <div>
+        <video id="player" width="960" height="540" controls autoplay playsinline>
+            <source src="" type="video/mp4">
+        </video>
+        <div id="errorMsg" class="error" style="display:none;"></div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        let id = urlParams.get('id');
+        if (!id) id = '1';
+        const videoSrc = `videos/${id}.mp4`;
+        const video = document.getElementById('player');
+        const source = video.querySelector('source');
+        source.src = videoSrc;
+        video.load();
+        video.onerror = () => {
+            document.getElementById('errorMsg').style.display = 'block';
+            document.getElementById('errorMsg').innerText = `Ошибка: видео ${id}.mp4 не найдено или не поддерживается. Проверьте, что файл лежит в папке videos/ и это MP4 (H.264/AAC).`;
+        };
+    </script>
+</body>
+</html>
